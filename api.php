@@ -7,6 +7,8 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
     // Obtém o IP do servidor que enviou a requisição
     $ipRemetente = $_SERVER['REMOTE_ADDR'];
 
+    error_log('POST DE '.$ipRemetente);
+
     // Verifica se os dados foram decodificados corretamente
     if (is_array($dadosFazendas)) {
         $arquivo =  $_SERVER['DOCUMENT_ROOT'] . '/servers/'.$ipRemetente . '.json'; // Nome do arquivo baseado no IP
