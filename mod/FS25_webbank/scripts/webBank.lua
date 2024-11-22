@@ -7,6 +7,11 @@ function WebBankScript:loadMap(name)
     self:enviarDadosDasFazendas()
 end
 
+function WebBankScript:onDayChanged()
+    print("Dia no jogo mudou! Enviando dados das fazendas...")
+    self:enviarDadosDasFazendas()
+end
+
 function WebBankScript:enviarDadosDasFazendas()
     local dadosFazendas = {}
 
@@ -45,14 +50,14 @@ function WebBankScript:enviarDadosDasFazendas()
 end
 
 function WebBankScript:converterParaJSON(tabela)
-    local json = "{"
+    local json = "["
     for i, item in ipairs(tabela) do
         json = json .. string.format('{"nome":"%s","saldo":%.2f}', item.nome, item.saldo)
         if i < #tabela then
             json = json .. ","
         end
     end
-    json = json .. "}"
+    json = json .. "]"
     return json
 end
 
