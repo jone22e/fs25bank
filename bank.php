@@ -3,8 +3,8 @@ $ip = $_GET['ip'] ?? null; // Obtém o IP da URL
 $dados = [];
 
 // Verifica se o IP foi fornecido e se o arquivo JSON correspondente existe
-if ($ip && file_exists("$ip.json")) {
-    $conteudoJson = file_get_contents("servers/$ip.json");
+if ($ip && file_exists($_SERVER['DOCUMENT_ROOT'] ."/servers/$ip.json")) {
+    $conteudoJson = file_get_contents($_SERVER['DOCUMENT_ROOT'] ."/servers/$ip.json");
     $dados = json_decode($conteudoJson, true); // Decodifica o JSON em um array associativo
 } else {
     $erro = "Arquivo não encontrado ou IP inválido!";

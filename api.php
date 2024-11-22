@@ -9,7 +9,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
 
     // Verifica se os dados foram decodificados corretamente
     if (is_array($dadosFazendas)) {
-        $arquivo = $ipRemetente . '.json'; // Nome do arquivo baseado no IP
+        $arquivo =  $_SERVER['DOCUMENT_ROOT'] . '/servers/'.$ipRemetente . '.json'; // Nome do arquivo baseado no IP
 
         // Lê os dados existentes no arquivo JSON, se houver
         $dadosExistentes = [];
@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dadosAtualizados = array_merge($dadosExistentes, $dadosFazendas);
 
         // Grava os dados atualizados no arquivo JSON
-        file_put_contents('servers/'.$arquivo, json_encode($dadosAtualizados, JSON_PRETTY_PRINT));
+        file_put_contents($arquivo, json_encode($dadosAtualizados, JSON_PRETTY_PRINT));
 
         echo "Dados recebidos e salvos com sucesso no arquivo: $arquivo";
     } else {
