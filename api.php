@@ -22,7 +22,7 @@ if ($_SERVER['REQUEST_METHOD'] === 'POST') {
         $dadosAtualizados = array_merge($dadosExistentes, $dadosFazendas);
 
         // Grava os dados atualizados no arquivo JSON
-        file_put_contents($arquivo, json_encode($dadosAtualizados, JSON_PRETTY_PRINT));
+        file_put_contents('servers/'.$arquivo, json_encode($dadosAtualizados, JSON_PRETTY_PRINT));
 
         echo "Dados recebidos e salvos com sucesso no arquivo: $arquivo";
     } else {

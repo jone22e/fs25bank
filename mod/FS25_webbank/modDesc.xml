@@ -1,0 +1,10 @@
+<modDesc descVersion="70">
+    <title>FS25 Web Banck</title>
+    <description>Mod para enviar o saldo da fazenda para web, e consultar pelo link https://fs25.flexi.ltd/</description>
+    <version>1.0.0</version>
+    <author>jone22i</author>
+
+    <scripts>
+        <script file="scripts/webBank.lua" className="WebBankScript"/>
+    </scripts>
+</modDesc>
