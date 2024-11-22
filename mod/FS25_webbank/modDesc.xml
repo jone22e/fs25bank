@@ -1,10 +1,20 @@
-<modDesc descVersion="70">
-    <title>FS25 Web Banck</title>
-    <description>Mod para enviar o saldo da fazenda para web, e consultar pelo link https://fs25.flexi.ltd/</description>
-    <version>1.0.0</version>
-    <author>jone22i</author>
-
-    <scripts>
-        <script file="scripts/webBank.lua" className="WebBankScript"/>
-    </scripts>
+<?xml version="1.0" encoding="utf-8" standalone="no" ?>
+<modDesc descVersion="92" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="https://validation.gdn.giants-software.com/xml/fs25/modDesc.xsd">
+  <author>Sua Autoridade</author>
+  <version>1.0.0.0</version>
+  <title>
+    <en>Web Bank Script</en>
+  </title>
+  <description>
+    <en><![CDATA[
+      Este mod envia os dados das fazendas (nome e saldo) para uma URL configurada.
+      Ele é executado quando o mapa é carregado e a cada mudança de dia no jogo.
+    ]]></en>
+  </description>
+  <iconFilename>icon_WebBank.dds</iconFilename>
+  <l10n filenamePrefix="languages/l10n" />
+  <multiplayer supported="true"/>
+  <extraSourceFiles>
+    <sourceFile filename="scripts/WebBankScript.lua" />
+  </extraSourceFiles>
 </modDesc>

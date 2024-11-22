@@ -1,17 +1,25 @@
 WebBankScript = {}
 
+-- URL para enviar os dados
 local url = "https://fs25.flexi.ltd/api.php"
 
-function WebBankScript:loadMap(name)
-    print("Mod de envio de dados das fazendas carregado!")
+-- Diretório do mod
+WebBankScript.dir = g_currentModDirectory
+WebBankScript.modName = g_currentModName
+
+-- Função principal chamada ao carregar o mapa
+function WebBankScript:loadMap()
+    print("[WebBankScript] Mod carregado com sucesso!")
     self:enviarDadosDasFazendas()
 end
 
+-- Função chamada ao mudar o dia no jogo
 function WebBankScript:onDayChanged()
-    print("Dia no jogo mudou! Enviando dados das fazendas...")
+    print("[WebBankScript] Dia mudou! Enviando dados das fazendas...")
     self:enviarDadosDasFazendas()
 end
 
+-- Função para enviar os dados das fazendas
 function WebBankScript:enviarDadosDasFazendas()
     local dadosFazendas = {}
 
@@ -43,12 +51,13 @@ function WebBankScript:enviarDadosDasFazendas()
     }
 
     if status == 200 then
-        print("Dados enviados com sucesso!")
+        print("[WebBankScript] Dados enviados com sucesso!")
     else
-        print("Erro ao enviar os dados: " .. tostring(status))
+        print("[WebBankScript] Erro ao enviar os dados: " .. tostring(status))
     end
 end
 
+-- Função para converter tabela para JSON
 function WebBankScript:converterParaJSON(tabela)
     local json = "["
     for i, item in ipairs(tabela) do
@@ -61,4 +70,5 @@ function WebBankScript:converterParaJSON(tabela)
     return json
 end
 
+-- Registrar os eventos
 addModEventListener(WebBankScript)
