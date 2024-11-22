@@ -1,3 +1,16 @@
+<?php
+$ip = $_GET['ip'] ?? null; // Obtém o IP da URL
+$dados = [];
+
+// Verifica se o IP foi fornecido e se o arquivo JSON correspondente existe
+if ($ip && file_exists("$ip.json")) {
+    $conteudoJson = file_get_contents("$ip.json");
+    $dados = json_decode($conteudoJson, true); // Decodifica o JSON em um array associativo
+} else {
+    $erro = "Arquivo não encontrado ou IP inválido!";
+}
+?>
+
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -30,22 +43,62 @@
     </nav>
 
     <div class="container mt-5">
-        <div class="row justify-content-center">
-            <div class="col-md-6">
-                <div class="card shadow">
-                    <div class="card-header bg-primary text-white text-center">
-                        <h4>Bem-vindo(a), Jone!</h4>
-                    </div>
-                    <div class="card-body text-center">
-                        <h5 class="mb-3">Saldo Disponível</h5>
-                        <h1 class="text-success">R$ 12.345,67</h1>
-                    </div>
-                    <div class="card-footer text-center">
-                        <button class="btn btn-primary w-100">Ver Extrato</button>
+        <?php if (isset($erro)): ?>
+            <div class="alert alert-danger text-center">
+                <?= htmlspecialchars($erro) ?>
+            </div>
+        <?php else: ?>
+            <div class="row justify-content-center">
+                <div class="col-md-6">
+                    <div class="card shadow">
+                        <div class="card-header bg-primary text-white text-center">
+                            <h4>Bem-vindo(a), Jone!</h4>
+                        </div>
+                        <div class="card-body">
+                            <form method="GET" action="bank.php">
+                                <input type="hidden" name="ip" value="<?= htmlspecialchars($ip) ?>">
+                                <div class="mb-3">
+                                    <label for="fazenda" class="form-label">Selecione uma Fazenda</label>
+                                    <select name="fazenda" id="fazenda" class="form-select" required>
+                                        <option value="" disabled selected>Escolha...</option>
+                                        <?php foreach ($dados as $fazenda): ?>
+                                            <option value="<?= htmlspecialchars($fazenda['nome']) ?>"
+                                                <?= isset($_GET['fazenda']) && $_GET['fazenda'] === $fazenda['nome'] ? 'selected' : '' ?>>
+                                                <?= htmlspecialchars($fazenda['nome']) ?>
+                                            </option>
+                                        <?php endforeach; ?>
+                                    </select>
+                                </div>
+                                <button type="submit" class="btn btn-primary w-100">Ver Saldo</button>
+                            </form>
+
+                            <?php
+                            if (isset($_GET['fazenda'])):
+                                $fazendaSelecionada = $_GET['fazenda'];
+                                $saldo = null;
+                                foreach ($dados as $fazenda) {
+                                    if ($fazenda['nome'] === $fazendaSelecionada) {
+                                        $saldo = $fazenda['saldo'];
+                                        break;
+                                    }
+                                }
+                            ?>
+                                <?php if ($saldo !== null): ?>
+                                    <div class="alert alert-success mt-3 text-center">
+                                        Saldo da Fazenda <strong><?= htmlspecialchars($fazendaSelecionada) ?></strong>: 
+                                        <span class="text-success">R$ <?= number_format($saldo, 2, ',', '.') ?></span>
+                                    </div>
+                                <?php else: ?>
+                                    <div class="alert alert-warning mt-3 text-center">
+                                        Fazenda não encontrada!
+                                    </div>
+                                <?php endif; ?>
+                            <?php endif; ?>
+                        </div>
                     </div>
                 </div>
             </div>
-        </div>
+        <?php endif; ?>
     </div>
 
     <footer class="bg-light py-3 text-center mt-5">
